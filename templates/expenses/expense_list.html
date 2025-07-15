@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Xarajatlar{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Mening Xarajatlarim</h2>
+    <a href="{% url 'expense_create' %}" class="btn btn-primary">Xarajat qo'shish</a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get">
+            <div class="row">
+                <div class="col-md-6">
+                    {{ search_form.query }}
+                </div>
+                <div class="col-md-4">
+                    {{ search_form.category }}
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-outline-primary w-100">Qidirish</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if expenses %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Sarlavha</th>
+                    <th>Summa</th>
+                    <th>Kategoriya</th>
+                    <th>Sana</th>
+                    <th>Tavsif</th>
+                    <th>Amallar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense.title }}</td>
+                        <td>${{ expense.amount }}</td>
+                        <td>{{ expense.get_category_display }}</td>
+                        <td>{{ expense.expense_date }}</td>
+                        <td>{{ expense.description|truncatewords:10 }}</td>
+                        <td>
+                            <a href="{% url 'expense_edit' expense.pk %}" class="btn btn-sm btn-outline-primary">Tahrirlash</a>
+                            <a href="{% url 'expense_delete' expense.pk %}" class="btn btn-sm btn-outline-danger">O'chirish</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        Hozircha xarajatlar mavjud emas. <a href="{% url 'expense_create' %}">Birinchi xarajatni qo'shing</a>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Xarajatni o'chirish{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-center">Xarajatni o'chirish</h3>
+            </div>
+            <div class="card-body">
+                <p>Siz rostdan ham <strong>"{{ expense.title }}"</strong> xarajatni o'chirmoqchimisiz?</p>
+                <div class="alert alert-warning">
+                    <strong>Ogohlantirish:</strong> Bu amal qaytarilmas!
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-danger">Ha, o'chirish</button>
+                        <a href="{% url 'expense_list' %}" class="btn btn-secondary">Bekor qilish</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
